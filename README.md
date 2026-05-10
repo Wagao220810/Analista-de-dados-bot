@@ -32,7 +32,7 @@ Ideal para Cientistas de Dados, Analistas de BI e profissionais que desejam auto
 
 ---
 
-## 📸 Galeria (Screenshots)
+## 📸 Galeria (Capturas de tela)
 
 *Adicione aqui as capturas de tela para demonstrar o projeto em ação!*
 
@@ -40,14 +40,14 @@ Ideal para Cientistas de Dados, Analistas de BI e profissionais que desejam auto
 <!-- Tire um print da sua janela nova e salve em docs/gui.png -->
 ![Interface Gráfica do Robô](docs/gui.png)
 
-### 2. Menu Principal no Terminal
+### 2. Menu Principal sem Terminal
 ![Menu Principal do Robô](docs/menu.png)
 
-### 3. Dashboard Interativo (PyGWalker)
-![Dashboard HTML Interativo](docs/dashboard.png)
+### 3. Painel Interativo (PyGWalker)
+![Painel HTML Interativo](docs/dashboard.png)
 
 ### 4. Relatórios Gerados pelo Gemini
-![Auto-Pilot Relatório Markdown](docs/relatorio.png)
+![Remarcação do Relatório do Piloto Automático](docs/relatorio.png)
 
 ---
 
