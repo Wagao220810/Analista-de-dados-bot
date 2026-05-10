@@ -1,0 +1,10 @@
+pandas
+matplotlib
+seaborn
+openpyxl
+PyQt5
+numpy
+pygwalker
+sqlalchemy
+google-generativeai
+plotly
