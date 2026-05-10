@@ -8,3 +8,5 @@ sqlalchemy
 google-generativeai
 plotly
 python-dotenv
+pytest
+customtkinter
