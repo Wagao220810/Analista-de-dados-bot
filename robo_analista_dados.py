@@ -31,7 +31,7 @@ class RoboAnalistaDados:
     def __init__(self):
         self.df: pd.DataFrame | None = None
         self.output_dir: str | None = None
-        print("🤖 ROBÔ ANALISTA DE DADOS INICIADO!")
+        print("🤖 Robô Analista de dados INICIADO!")
         print("📊 Suporta CSV, Excel (.xlsx) e JSON")
     
     def _criar_diretorio_saida(self):
@@ -628,7 +628,7 @@ Crie um relatório rico focado em negócios, contendo obrigatoriamente:
     def menu(self):
         while True:
             print("\n" + "="*60)
-            print("🤖 ROBÔ ANALISTA DE DADOS")
+            print("🤖 Robô Analista de dados")
             print("="*60)
             print("1. 📂 Carregar dataset (Arquivo)")
             print("2. 📋 Carregar dataset (Área de Transferência)")

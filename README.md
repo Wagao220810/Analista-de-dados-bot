@@ -1,78 +1,97 @@
 # 🤖 Robô Analista de Dados
 
-Um assistente interativo de linha de comando (CLI) escrito em Python, desenvolvido para automatizar tarefas rotineiras de Análise de Dados, gerar dashboards e obter insights avançados utilizando Inteligência Artificial.
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python)
+![Pandas](https://img.shields.io/badge/Pandas-Data_Analysis-150458?style=for-the-badge&logo=pandas)
+![Gemini AI](https://img.shields.io/badge/Google_Gemini-AI_Analysis-8E75B2?style=for-the-badge&logo=google)
+![Power BI](https://img.shields.io/badge/Power_BI-Integration-F2C811?style=for-the-badge&logo=powerbi)
 
-## ✨ Funcionalidades Principais
+> Um assistente de linha de comando (CLI) automatizado para análise de dados, visualização interativa e geração de insights com Inteligência Artificial (Google Gemini).
 
-- **Múltiplas Fontes de Dados**: Carregue arquivos locais (CSV, Excel, JSON), copie e cole direto da sua Área de Transferência (Clipboard), baixe dados via URL ou conecte-se a Bancos de Dados SQL (PostgreSQL, MySQL, SQL Server, SQLite).
-- **Análise Exploratória Automática (EDA)**: Gere estatísticas descritivas, informações do dataset e identifique valores nulos em segundos.
-- **Geração de Gráficos**: Criação automática de histogramas, heatmaps de correlação e gráficos de barras usando Matplotlib e Seaborn.
-- **Detecção de Anomalias**: Identifica outliers automaticamente com base no método IQR (Intervalo Interquartil).
-- **Integração com BI**: Exporte dados tratados para Power BI ou gere scripts Python mágicos de gráficos interativos com Plotly.
-- **Dashboards Interativos em HTML**: Gere interfaces visuais ricas estilo Tableau/Power BI utilizando `PyGWalker`.
-- **Inteligência Artificial (Google Gemini)**:
-  - Gere insights descritivos textuais baseados em amostras de dados.
-  - **Auto-Pilot**: Análise completa e autônoma do dataset gerando um relatório gerencial Markdown de ponta a ponta.
+---
 
-##  Pré-requisitos e Instalação
+## 📌 Sobre o Projeto
 
-1. **Python 3.8+** instalado em sua máquina.
-2. Clone o repositório e navegue até a pasta do projeto.
-3. Instale as bibliotecas necessárias rodando o comando abaixo no terminal:
+O **Robô Analista de Dados** é uma ferramenta completa desenhada para acelerar o processo de Análise Exploratória de Dados (EDA). Ele permite carregar arquivos de múltiplas fontes, gerar estatísticas detalhadas, criar gráficos automáticos, detectar anomalias e emitir relatórios executivos escritos inteiramente por IA.
 
+Ideal para Cientistas de Dados, Analistas de BI e profissionais que desejam automatizar tarefas repetitivas e focar na extração de valor.
+
+---
+
+## ✨ Funcionalidades (Features)
+
+- **Carregamento Multi-Fonte:** Suporta CSV, Excel, JSON, Área de Transferência, URLs Diretas e Bancos de Dados SQL.
+- **Análise Exploratória Rápida:** Geração de estatísticas descritivas e contagem de valores nulos com 1 clique.
+- **Visualização de Dados:** Geração automática de Histogramas, Heatmaps de Correlação e Gráficos de Barras.
+- **Integração com Power BI:** Exportação de dados limpos e geração de scripts Python em Plotly para visuais 100% interativos no Power BI.
+- **Dashboard HTML:** Criação de interface drag-and-drop (arrastar e soltar) estilo Tableau usando `PyGWalker`.
+- **Inteligência Artificial (Gemini):**
+  - 🔍 **Detecção de Anomalias:** Identifica outliers e usa a IA para explicar possíveis causas no mundo real.
+  - 🧠 **Insights Executivos:** Gera um resumo dos 3 principais indicadores de negócio baseados na amostra.
+  - 🚀 **Auto-Pilot:** Analisa todo o dataset e redige um relatório técnico avançado em formato Markdown.
+
+---
+
+## 📸 Galeria (Screenshots)
+
+*Adicione aqui as capturas de tela para demonstrar o projeto em ação!*
+
+### 1. Menu Principal no Terminal
+![Menu Principal do Robô](docs/menu.png)
+
+### 2. Dashboard Interativo (PyGWalker)
+![Dashboard HTML Interativo](docs/dashboard.png)
+
+### 3. Relatórios Gerados pelo Gemini
+![Auto-Pilot Relatório Markdown](docs/relatorio.png)
+
+---
+
+## 🚀 Como Executar o Projeto
+
+### Pré-requisitos
+Certifique-se de ter o Python instalado na sua máquina. Você também precisará de uma chave de API do Google AI Studio para as funções do Gemini.
+
+### Instalação
+
+1. Clone este repositório:
 ```bash
-pip install pandas matplotlib seaborn openpyxl sqlalchemy pygwalker google-generativeai plotly
+git clone https://github.com/Wagao220810/robo-analista-dados.git
+cd robo-analista-dados
 ```
 
-> **Nota sobre Banco de Dados:** Para usar a funcionalidade de conexão SQL com bancos específicos, instale o driver correspondente (ex: `psycopg2-binary` para PostgreSQL, `pymysql` para MySQL ou `pyodbc` para SQL Server). O SQLite tem suporte nativo.
+2. Instale as dependências necessárias:
+```bash
+pip install pandas matplotlib seaborn numpy openpyxl google-generativeai pygwalker sqlalchemy
+```
 
-## 🔑 Configurando a Chave de API da IA (Gemini)
-
-Para utilizar as funcionalidades de Inteligência Artificial, você precisará de uma API Key gratuita do Google AI Studio.
-
-Existem duas formas de fornecer a chave para o Robô:
-1. **Recomendado:** Crie uma variável de ambiente no seu sistema operacional chamada `GEMINI_API_KEY` com o valor da sua chave.
-2. **Manual:** Deixe em branco e o robô solicitará a chave diretamente no terminal na primeira vez que uma função de IA for acionada.
-
-⚠️ **Atenção:** Evite salvar (hardcode) chaves de API diretamente no código-fonte, especialmente ao subir para um repositório público no GitHub!
-
-## 🎮 Como Usar
-
-Execute o script principal diretamente pelo terminal:
-
+3. Execute o robô:
 ```bash
 python robo_analista_dados.py
 ```
 
-Um menu interativo será exibido:
+---
 
-```text
-============================================================
-🤖 ROBÔ ANALISTA DE DADOS
-============================================================
-1. 📂 Carregar dataset (Arquivo)
-2. 📋 Carregar dataset (Área de Transferência)
-3. 🔗 Carregar dataset (URL)
-4. 🗄️ Carregar dataset (Banco de Dados SQL)
-5. 📈 Estatísticas descritivas
-6. ℹ️  Informações do dataset
-...
-14. 🚪 Sair
-============================================================
-Escolha (1-14):
-```
+## 🏗️ Arquitetura e Clean Code
 
-Siga as instruções na tela e os arquivos gerados (gráficos, planilhas limpas, HTMLs e relatórios) serão automaticamente salvos e organizados em uma nova pasta `analise_YYYY-MM-DD_HHMMSS`.
+Este projeto foi desenvolvido utilizando boas práticas de engenharia de software:
+- **Tabela de Despacho (Dispatch Dictionary):** Substituição de cadeias complexas de `if/else` por um dicionário de ações para o menu, tornando o código modular e fácil de expandir (OCP - Open/Closed Principle).
+- **Decorators Customizados:** Criação do decorator `@dados_carregados_required` para validação de estado, evitando redundância de código antes de executar análises.
+- **Tratamento de Exceções (Fail-Fast):** Captura robusta de erros ao importar bibliotecas, ler arquivos de formatos desconhecidos ou falhas na API do Gemini.
 
-## 🛠️ Tecnologias Utilizadas
+---
 
-- **Pandas** - Manipulação e análise de dados.
-- **Matplotlib & Seaborn** - Visualização estática de dados.
-- **PyGWalker** - Interface visual de dados exploratória (HTML).
-- **Plotly** - Geração de visuais interativos em Python para Power BI.
-- **SQLAlchemy** - Toolkit SQL e ORM.
-- **Google Generative AI (Gemini)** - LLM para insights e relatórios gerenciais.
+## 🤝 Contribuindo
 
-## 📄 Licença
+Contribuições são sempre bem-vindas! Se você tem alguma ideia para melhorar o robô, sinta-se à vontade para abrir uma *Issue* ou enviar um *Pull Request*.
 
-Este projeto é de código aberto e está disponível sob a Licença MIT.
+1. Faça um Fork do projeto
+2. Crie uma Branch para sua Feature (`git checkout -b feature/NovaFuncionalidade`)
+3. Faça o Commit de suas mudanças (`git commit -m 'Adicionando nova funcionalidade'`)
+4. Faça o Push para a Branch (`git push origin feature/NovaFuncionalidade`)
+5. Abra um Pull Request
+
+---
+
+<div align="center">
+  Feito com ☕ e 🐍 por Wagner
+</div>
