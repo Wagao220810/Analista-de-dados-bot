@@ -36,23 +36,31 @@ Ideal para Cientistas de Dados, Analistas de BI e profissionais que desejam auto
 
 *Adicione aqui as capturas de tela para demonstrar o projeto em ação!*
 
-### 1. Menu Principal no Terminal
+### 1. Interface Gráfica (Novo!)
+<!-- Tire um print da sua janela nova e salve em docs/gui.png -->
+![Interface Gráfica do Robô](docs/gui.png)
+
+### 2. Menu Principal no Terminal
 ![Menu Principal do Robô](docs/menu.png)
 
-### 2. Dashboard Interativo (PyGWalker)
+### 3. Dashboard Interativo (PyGWalker)
 ![Dashboard HTML Interativo](docs/dashboard.png)
 
-### 3. Relatórios Gerados pelo Gemini
+### 4. Relatórios Gerados pelo Gemini
 ![Auto-Pilot Relatório Markdown](docs/relatorio.png)
 
 ---
 
 ## 🚀 Como Executar o Projeto
 
-### Pré-requisitos
-Certifique-se de ter o Python instalado na sua máquina. Você também precisará de uma chave de API do Google AI Studio para as funções do Gemini.
+### 📦 Opção 1: Usando o Executável (.exe) - Para Usuários Windows
+A maneira mais fácil de usar é baixando a versão compilada, que **não exige instalação do Python!**
+1. Acesse a aba **Releases** deste repositório no GitHub.
+2. Baixe o arquivo `robo_gui.exe`.
+3. Crie um arquivo chamado `.env` na mesma pasta do `.exe` e coloque sua chave de API do Google Gemini (veja como no arquivo `.env.example`).
+4. Dê dois cliques no `.exe` e aproveite!
 
-### Instalação
+### 💻 Opção 2: Rodando pelo Código-Fonte (Para Desenvolvedores)
 
 1. Clone este repositório:
 ```bash
@@ -62,7 +70,7 @@ cd robo-analista-dados
 
 2. Instale as dependências necessárias:
 ```bash
-pip install pandas matplotlib seaborn numpy openpyxl google-generativeai pygwalker sqlalchemy
+pip install -r requirements.txt
 ```
 
 3. Execute o robô:
