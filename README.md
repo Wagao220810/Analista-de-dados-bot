@@ -5,7 +5,7 @@
 ![Gemini AI](https://img.shields.io/badge/Google_Gemini-AI_Analysis-8E75B2?style=for-the-badge&logo=google)
 ![Power BI](https://img.shields.io/badge/Power_BI-Integration-F2C811?style=for-the-badge&logo=powerbi)
 
-> Um assistente de linha de comando (CLI) automatizado para análise de dados, visualização interativa e geração de insights com Inteligência Artificial (Google Gemini).
+> Um assistente automatizado para análise de dados, visualização interativa e geração de insights com Inteligência Artificial (Google Gemini). Conta com versão em Linha de Comando (CLI) e uma Interface Gráfica Moderna (GUI).
 
 ---
 
@@ -19,6 +19,7 @@ Ideal para Cientistas de Dados, Analistas de BI e profissionais que desejam auto
 
 ## ✨ Funcionalidades (Features)
 
+- **Interface Gráfica Moderna:** UI elegante em Dark Mode feita com `CustomTkinter` (Não requer uso do terminal!).
 - **Carregamento Multi-Fonte:** Suporta CSV, Excel, JSON, Área de Transferência, URLs Diretas e Bancos de Dados SQL.
 - **Análise Exploratória Rápida:** Geração de estatísticas descritivas e contagem de valores nulos com 1 clique.
 - **Visualização de Dados:** Geração automática de Histogramas, Heatmaps de Correlação e Gráficos de Barras.
