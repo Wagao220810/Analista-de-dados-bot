@@ -4,3 +4,8 @@
 # Pastas geradas pelo robô e arquivos temporários do Python
 analise_*/
 __pycache__/
+
+# Artefatos do PyInstaller
+build/
+dist/
+*.spec
