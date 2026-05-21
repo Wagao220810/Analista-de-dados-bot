@@ -4,3 +4,7 @@ dist/
 *.pkg
 *.exe
 __pycache__/
+
+# Ignorar pastas de resultados geradas pelo robo
+analise_*/
+analisar_*/
