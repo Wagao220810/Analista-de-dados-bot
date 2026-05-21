@@ -10,3 +10,7 @@ __pycache__/
 # Ignorar pastas de resultados geradas pelo robo
 analise_*/
 analisar_*/
+
+# Ignorar outros projetos perdidos na mesma pasta raiz
+AdoreApp/
+flutter_application_1/
