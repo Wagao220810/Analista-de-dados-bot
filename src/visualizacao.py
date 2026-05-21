@@ -37,7 +37,7 @@ def gerar_graficos_basicos(df, output_dir):
         print(f"✅ Heatmap de correlação salvo em '{filepath}'")
         
     # 3. Gráficos de Barras
-    cat_cols = df.select_dtypes(include=['object']).columns
+    cat_cols = df.select_dtypes(include=['object', 'str']).columns
     for col in cat_cols[:5]:
         if df[col].nunique() < 20:
             plt.figure(figsize=(10, 6))
@@ -138,3 +138,8 @@ def gerar_dashboard_html(df, output_dir):
         print("   Rode no terminal: pip install pygwalker")
     except Exception as e:
         print(f"❌ Erro ao gerar dashboard: {e}")
+
+if __name__ == "__main__":
+    print("ℹ️ Este é um módulo auxiliar do Robô Analista de Dados (apenas definições de funções visuais).")
+    print("   Para iniciar o programa, volte para a pasta principal e execute:")
+    print("   python data_analyst_robot.py")

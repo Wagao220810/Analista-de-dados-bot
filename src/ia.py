@@ -1,17 +1,31 @@
 import os
 import io
+import webbrowser
+import sys
+import json
+import pandas as pd
 
 def _configurar_gemini():
     """Configura a API do Gemini e retorna o módulo genai."""
     try:
         import google.generativeai as genai
-    except ImportError:
+    except ImportError as e:
         print("❌ ERRO: A biblioteca 'google-generativeai' não está instalada.")
+        print(f"   Detalhe técnico: {e}")
+        if getattr(sys, 'frozen', False):
+            print("   ⚠️ Você está rodando a versão .exe (standalone)!")
+            print("   Para a IA funcionar, recompile o programa forçando a importação:")
+            print("   pyinstaller --onefile --hidden-import google.generativeai data_analyst_robot.py")
+        else:
+            print("   Rode no terminal: pip install google-generativeai")
         return None
 
-    api_key = os.environ.get("GEMINI_API_KEY", "")
-    if not api_key:
-        api_key = input("🔑 Cole sua API Key do Google Gemini (ou Enter para cancelar): ").strip()
+    api_key = os.environ.get("GEMINI_API_KEY", "").strip()
+    
+    chaves_falsas = ["", "sua_chave_aqui", "AIzaSySuaChaveGiganteAqui123456789"]
+    if api_key in chaves_falsas:
+        print("\n⚠️ Chave de API ausente ou chave de teste detectada!")
+        api_key = input("🔑 Cole sua API Key REAL do Google Gemini (ou Enter para cancelar): ").strip()
         if not api_key:
             return None
         os.environ["GEMINI_API_KEY"] = api_key
@@ -21,7 +35,13 @@ def _configurar_gemini():
 
 def _obter_modelo(genai, preferencia="flash"):
     """Busca o modelo adequado disponível na API."""
-    modelos_disponiveis = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
+    try:
+        modelos_disponiveis = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
+    except Exception as e:
+        if "API_KEY_INVALID" in str(e) or "API key not valid" in str(e):
+            raise Exception("A API Key informada é inválida ou incorreta (recusada pelo Google). Cole a chave correta e tente novamente!")
+        raise e
+        
     if not modelos_disponiveis:
         raise Exception("Sua API Key não tem acesso a nenhum modelo de geração de texto.")
         
@@ -128,6 +148,35 @@ Crie um relatório rico focado em negócios, contendo obrigatoriamente:
         with open(filepath, 'w', encoding='utf-8') as f:
             f.write(response.text)
             
+        # Converte o Markdown para um Relatório HTML elegante pronto para Salvar como PDF
+        try:
+            import markdown
+            # Converte o texto e suporta tabelas
+            html_content = markdown.markdown(response.text, extensions=['tables'])
+            html_styled = f"""
+            <html><head><meta charset='utf-8'><style>
+                body {{ font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; max-width: 900px; margin: 40px auto; color: #333; padding: 20px; }}
+                h1, h2, h3 {{ color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 10px; }}
+                table {{ border-collapse: collapse; width: 100%; margin: 20px 0; }}
+                th, td {{ border: 1px solid #ddd; padding: 12px; text-align: left; }}
+                th {{ background-color: #f8f9fa; font-weight: bold; }}
+                .btn-print {{ float: right; background: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; font-weight: bold; }}
+                .btn-print:hover {{ background: #0056b3; }}
+                @media print {{ .btn-print {{ display: none; }} body {{ margin: 0; padding: 0; }} }}
+            </style></head><body>
+            <button class="btn-print" onclick="window.print()">🖨️ Salvar como PDF</button>
+            {html_content}
+            </body></html>
+            """
+            html_filepath = os.path.join(output_dir or '.', 'Relatorio_AutoPilot.html')
+            with open(html_filepath, 'w', encoding='utf-8') as f:
+                f.write(html_styled)
+            
+            print(f"✅ Versão para Impressão/PDF gerada em: '{html_filepath}'")
+            webbrowser.open(f'file://{os.path.abspath(html_filepath)}')
+        except ImportError:
+            print("💡 DICA: Instale a biblioteca 'markdown' (pip install markdown) para gerar o relatório com layout pronto para PDF!")
+
         print("\n✨ RELATÓRIO COMPLETADO COM SUCESSO ✨")
         print(f"✅ Arquivo salvo em: '{filepath}'")
         print("💡 DICA: Abra o arquivo .md gerado no VS Code (ou em qualquer leitor de Markdown) para ver a formatação!")
@@ -135,3 +184,48 @@ Crie um relatório rico focado em negócios, contendo obrigatoriamente:
     except Exception as e:
         print(f"❌ Erro ao gerar análise automatizada: {e}")
         return False
+
+def estruturar_coluna_caotica(df, coluna):
+    """
+    (ETL Inteligente) Usa o Gemini em modo JSON estrito para extrair 
+    entidades estruturadas de textos bagunçados e criar novas colunas.
+    """
+    genai_module = _configurar_gemini()
+    if not genai_module:
+        return df
+        
+    _, nome_modelo = _obter_modelo(genai_module, "flash")
+    
+    # Força a API a retornar EXCLUSIVAMENTE um objeto JSON válido
+    modelo = genai_module.GenerativeModel(
+        model_name=nome_modelo,
+        generation_config={"response_mime_type": "application/json"}
+    )
+    
+    # Proteção de Rate Limit: Para testes locais, processaremos apenas uma amostra se for muito grande
+    df_alvo = df.head(50) if len(df) > 50 else df
+    if len(df) > 50:
+        print(f"⚠️ Aviso: Dataset grande ({len(df)} linhas). Processando apenas as 50 primeiras para evitar bloqueios da API.")
+    
+    resultados = []
+    
+    for index, texto in df_alvo[coluna].items():
+        if pd.isna(texto) or str(texto).strip() == "":
+            resultados.append({}) # Linha vazia, JSON vazio
+            continue
+            
+        prompt = f"Você é um pipeline de extração de dados. Analise o texto abaixo.\nExtraia entidades como: Nome, CPF, Data, Valor Financeiro, Status, Telefone ou Email.\nRetorne apenas as chaves que conseguir encontrar.\n\nTEXTO:\n{texto}"
+        
+        try:
+            resposta = modelo.generate_content(prompt)
+            dados_json = json.loads(resposta.text)
+            resultados.append(dados_json)
+        except Exception as e:
+            resultados.append({"erro_extracao_ia": "falha"})
+            
+    df_estruturado = pd.DataFrame(resultados)
+    df_estruturado = df_estruturado.add_prefix(f"{coluna}_ia_")
+    df_estruturado.index = df_alvo.index
+    df_final = pd.concat([df, df_estruturado], axis=1)
+    
+    return df_final

@@ -1,11 +1,6 @@
-# Segredos e Variáveis de Ambiente
-.env
-
-# Pastas geradas pelo robô e arquivos temporários do Python
-analise_*/
-__pycache__/
-
-# Artefatos do PyInstaller
+# Ignorar arquivos compilados e executaveis
 build/
 dist/
-*.spec
+*.pkg
+*.exe
+__pycache__/

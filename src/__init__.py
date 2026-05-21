@@ -1,1 +1,2 @@
-# Arquivo necessário para o Python reconhecer esta pasta como um módulo (pacote).
+# Arquivo de inicialização do pacote
+# Necessário para que o PyInstaller empacote o diretório corretamente.

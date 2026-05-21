@@ -2,28 +2,31 @@ import pytest
 import pandas as pd
 import sys
 import os
-from unittest.mock import patch
 
 # Garante que o Python encontre a pasta src
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 from src import dados
 
-@patch('src.dados.os.path.exists')
-@patch('builtins.input')
-@patch('src.dados.pd.read_csv')
-def test_carregar_arquivo_csv(mock_read_csv, mock_input, mock_exists):
-    """Testa a leitura de um CSV "falso" usando mocks."""
-    # 1. Arrange: Prepara os dublês
-    mock_input.return_value = "caminho_falso.csv" # Simula o usuário digitando o caminho
-    mock_exists.return_value = True               # Simula que o arquivo existe
+def test_detectar_anomalias():
+    """Testa se a função identifica outliers corretamente via método IQR (Tukey)."""
+    # Cria um DataFrame onde o valor 100 é claramente um outlier no meio de idades jovens
+    df_teste = pd.DataFrame({
+        'Idade': [25, 26, 24, 25, 27, 26, 25, 100],  # 100 é a anomalia
+        'Salario': [5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000] # Constante para garantir 0 outliers
+    })
     
-    df_esperado = pd.DataFrame({'Nome': ['João', 'Maria'], 'Idade': [30, 25]})
-    mock_read_csv.return_value = df_esperado      # Simula o Pandas lendo o CSV
+    resultado = dados.detectar_anomalias(df_teste)
     
-    # 2. Act: Executa a função
-    df_resultado = dados.carregar_arquivo()
+    # 1. Verifica se encontrou anomalia na coluna 'Idade'
+    assert 'Idade' in resultado
+    assert resultado['Idade']['quantidade'] == 1
+    # Verifica se o outlier exato (100) foi capturado na amostra
+    assert 100 in resultado['Idade']['amostra_valores']
     
-    # 3. Assert: Verifica se a função repassou tudo corretamente
-    assert df_resultado.equals(df_esperado)
-    mock_read_csv.assert_called_once_with("caminho_falso.csv")
+    # 2. Verifica se a coluna 'Salario' foi ignorada porque está tudo normal
+    assert 'Salario' not in resultado
+
+if __name__ == "__main__":
+    # Permite rodar o arquivo diretamente no terminal ou VS Code
+    pytest.main([__file__, "-v"])
